@@ -128,5 +128,24 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 MEDIA_URL='media/'
 
 
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='Kanil40890@gmail.com'
+EMAIL_HOST_PASSWORD='xkzwbhvojoppxadz'
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+EMAIL_PORT=587
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
