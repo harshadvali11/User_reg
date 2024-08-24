@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from app.forms import *
 from django.http import HttpResponse,HttpResponseRedirect
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -30,16 +30,8 @@ def registration(request):
             MFPFDO=NMPFDO.save(commit=False)
             MFPFDO.username=MFUFDO
             MFPFDO.save()
-            send_mail('registartion',
-                      'Thank u for registration',
-                      'Kanil40890@gmail.com',
-                      [MFUFDO.email],
-                      fail_silently=False)
 
-
-
-
-
+        
 
 
 
@@ -82,6 +74,39 @@ def display_data(request):
     PO=Profile.objects.get(username=UO)
     d={'UO':UO,'PO':PO}
     return render(request,'display_data.html',d)
+
+@login_required
+def change_password(request):
+    if request.method=='POST':
+        cpw=request.POST['cpw']
+        username=request.session['username']
+        UO=User.objects.get(username=username)
+        UO.set_password(cpw)
+        UO.save()
+        return HttpResponse('Password is Changed')
+
+    return render(request,'change_password.html')
+
+def reset_password(request):
+    if request.method=='POST':
+        pw=request.POST['pw']
+        username=request.POST['un']
+        LUO=User.objects.filter(username=username)
+        if LUO:
+            UO=LUO[0]
+            UO.set_password(pw)
+            UO.save()
+            return HttpResponse('Password is Changed')
+        else:
+            return HttpResponse('User is not present')
+
+    return render(request,'reset_password.html')
+
+
+
+
+
+
 
 
 
